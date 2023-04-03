@@ -1,8 +1,9 @@
-# A python package that contains a class with a function that calls open ai and returns the result
+import psycopg2
+import requests
 
 class Completion:
     def create(prompt):
-      #  call
+    #  call
     # await fetchSSE('https://chat.openai.com/backend-api/conversation', {
     #   method: 'POST',
     #   signal: params.signal,
@@ -32,10 +33,19 @@ class Completion:
           'Authorization': 'Bearer ' + token
       }
       res = requests.post('https://chat.openai.com/backend-api/conversation', headers=headers, data=data)
+
+      return res.json()
     
     def get_token():
       res = requests.get('https://my-open-ai.onrender.com/token')
       return res.json()['token']
-
     
-    
+    def set_token(self, token):
+      conn = psycopg2.connect(database="db_name",
+              host="db_host",
+              user="db_user",
+              password="db_pass",
+              port="db_port")
+      cursor = conn.cursor()
+      cursor.execute("INSERT INTO tokens (token) VALUES (%s)", (token,))
+      conn.commit()
