@@ -7,7 +7,7 @@ import os
 import uuid
 
 class Completion:
-    async def create(self, prompt):
+    async def create(prompt):
       token = await Completion.get_token()
       headers = {
           "Content-Type": "application/json",
@@ -55,16 +55,16 @@ class Completion:
     #   }),
     #  write code to call https://chat.openai.com/backend-api/conversation
     #  and return the result
-      headers = {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-      }
-      res = requests.post('https://chat.openai.com/backend-api/conversation', headers=headers, data=data)
+      # headers = {
+      #     'Content-Type': 'application/json',
+      #     'Authorization': 'Bearer ' + token
+      # }
+      # res = requests.post('https://chat.openai.com/backend-api/conversation', headers=headers, data=data)
 
-      return res.json()
+      # return res.json()
     
     async def get_token():
-      res = await requests.get('https://my-open-ai.onrender.com/token')
+      res = requests.get('https://my-open-ai.onrender.com/token')
       return res.json()['token']
     
     def set_token(token):
@@ -84,43 +84,3 @@ class Completion:
       cursor = conn.cursor()
       cursor.execute("UPDATE main SET name = %s WHERE id = 1", (token,))
       conn.commit()
-
-app=FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-@app.post("/")
-async def root(request: Request):
-  #  get the token and save it
-  body = await request.json()
-  Completion.set_token(body["token"])
-
-@app.post("/main")
-async def get_token(req: Request):
-  body = await req.json()
-  key = body["key"]
-  if(key == 'secret'):
-      result = urlparse("postgres://eqbdenpq:DjHsjEkh0gT3bw020_J_IaYKjHgde1q2@surus.db.elephantsql.com/eqbdenpq")
-      username = result.username
-      password = result.password
-      database = result.path[1:]
-      hostname = result.hostname
-      port = result.port
-      conn = psycopg2.connect(
-        database = database,
-        user = username,
-        password = password,
-        host = hostname,
-        port = port
-      )
-      cursor = conn.cursor()
-      cursor.execute("SELECT * FROM main WHERE id = 1")
-      token = cursor.fetchone()[1]
-      return {"token": token}
-
