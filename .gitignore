@@ -1,5 +1,4 @@
-__pycache__
-
-.space
-
 venv
+node_modules
+models
+ai/gpt4*
