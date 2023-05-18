@@ -1,4 +1,7 @@
-venv
+.venv
 node_modules
 models
 ai/gpt4*
+__pycache__
+.DS_Store
+accounts.txt

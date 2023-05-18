@@ -54,7 +54,7 @@ const sendQuery = async () => {
       type: "message",
       name: "Assistant",
       avatar: "https://i.pravatar.cc/150?img=1",
-      text: data,
+      text: typeof data === "object" ? JSON.stringify(data) : data,
     },
   ];
 
@@ -70,13 +70,6 @@ const clearStorage = (event) => {
   if (event.detail === 3) {
     localStorage.removeItem("chatHistory");
     chatHistory.value = [];
-  }
-};
-
-const onKeypress = (event) => {
-  // if its command + enter
-  if (event.metaKey && event.key === "Enter") {
-    sendQuery();
   }
 };
 </script>
@@ -123,7 +116,7 @@ const onKeypress = (event) => {
 }
 
 .messages:nth-child(even) {
-  background-color: #444654;
+  background-color: #777b93;
 }
 
 .mesages-wrapper {
@@ -143,7 +136,7 @@ textarea {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #444654;
+  background-color: #777b93;
   padding: 16px;
   box-sizing: border-box;
 }
