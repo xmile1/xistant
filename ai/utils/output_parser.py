@@ -7,25 +7,32 @@ from langchain.schema import AgentAction, AgentFinish, OutputParserException, Pr
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 
+PREFIX = """You are an output formatter. you can transform the data structure of the response to one of the following formats depending on the prompt:
 
-GENERIC_TOOL = """
-tool_name: general_format
-description: For general responses that do not need to be formatted
-format: response
-"""
-
-FORMAT_INSTRUCTIONS = """Depending on the prompt, select a format to use from the tools above, If the response does not contain relevant information to create the format, generate the relevant information and add it to the response:
-
-Only return the toolname and formatted response without any additional information using the pattern below:
-
-The Name of the tool that was used to format the response
-the formatted response
+FORMATS:
+---------
 
 """
 
-THE_INPUT_FORMAT = """The input format is:
+GENERIC_FORMAT = """
+
+tool_name: default_format
+description: This tool is used when no other tool is used to format the response.
+format: {{response}}
+"""
+
+FORMAT_INSTRUCTIONS = """When there is a response and it does not contain some of the information that is needed to format the response, generate the missing information.
+
+Do not summarize or edit the information in the response.
+
+You must respond with the toolname and formatted response using the pattern below:
+<The Name of the format that was used>
+<the formatted response>
+"""
+THE_INPUT_FORMAT = """
+The input is as follows:
 prompt: {prompt}
-response: {response}
+response:
 """
 
 class OutputParser(AgentOutputParser):
@@ -37,7 +44,7 @@ class OutputParser(AgentOutputParser):
     def from_llm(cls, llm, tools):
         prompt = OutputParser.create_prompt(tools)
 
-        llm_chain = LLMChain(llm=llm, prompt=prompt)
+        llm_chain = LLMChain(llm=llm, prompt=prompt, verbose=True)
         tools_dict = {tool.name: tool for tool in tools}
         return cls(retry_chain=llm_chain, tools=tools_dict)
 
@@ -47,12 +54,12 @@ class OutputParser(AgentOutputParser):
     @classmethod
     def create_prompt(cls, tools) -> str:
         tool_strings = "\n".join(
-            [f"toolname: {tool.name}\ndescription: {tool.description}\nformat: {tool.format}" for tool in tools]
+            [f"format_name: {tool.name}\ndescription: {tool.description}.\nformat: {tool.format}\n" for tool in tools]
         )
 
-        template = "\n\n".join(["TOOLS:\n" + tool_strings + GENERIC_TOOL, FORMAT_INSTRUCTIONS, THE_INPUT_FORMAT])
+        template = "\n\n".join([PREFIX + tool_strings + GENERIC_FORMAT, FORMAT_INSTRUCTIONS, THE_INPUT_FORMAT])
 
-        input_variables = ["prompt", "response"]
+        input_variables = ["prompt"]
         return PromptTemplate(template=template, input_variables=input_variables)
     
     def parse(self, text: str) -> Union[AgentAction, AgentFinish]:
@@ -60,10 +67,13 @@ class OutputParser(AgentOutputParser):
 
     def parse_with_prompt(self, prompt: PromptValue, completion: str) -> Any:
 
-        response = self.retry_chain.run(prompt=prompt, response=completion, verbose=True,max_iterations=1)
+        response = self.retry_chain.run(prompt=prompt, max_iterations=1)
         toolname, formatted_response = response.split("\n", 1)
+        
+        if not self.tools.get(toolname):
+            return completion
 
         if(self.tools.get(toolname) and self.tools[toolname].parse):
-            return self.tools[toolname].parse(formatted_response, prompt)
+            return self.tools[toolname].parse(formatted_response, prompt, completion)
         
         return formatted_response

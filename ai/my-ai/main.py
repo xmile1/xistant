@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from langchain.chat_models import ChatOpenAI
 from ai.my_ai import MyAI
 from plugins.german_ai_output_parser import GermanAIOutputParserPlugin
+from plugins.parenting_tips import ParentingTipsPlugin
 from plugins.rhasspy_output_parser import RhasspyOutputParserPlugin
 from plugins.devotionals import DevotionalsPlugin
 from plugins.german_teacher import GermanTeacherPlugin
@@ -16,8 +17,7 @@ os.environ["OPENAI_API_KEY"] = "sk-F8xGDInpoB9dncJ4IQfNT3BlbkFJjOtGmHsdgnrmyoBk5
 def start():
     model = ChatOpenAI(
         temperature=0.3,
-        max_tokens=512,
-        verbose=True,
+        max_tokens=512
     )
 
     ai = MyAI(
@@ -30,6 +30,7 @@ def start():
             DevotionalsPlugin,
             RhasspyOutputParserPlugin,
             GermanAIOutputParserPlugin,
+            ParentingTipsPlugin,
         ]
     )
     return ai

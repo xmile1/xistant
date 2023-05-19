@@ -19,6 +19,7 @@ class GermanWordGeneratorTool(BaseTool):
   description = (
     "it generates a new german word and its meaning in english"
   )
+  return_direct = True
   def _run(self, query: str) -> str: 
       url = "https://www.coolgenerator.com/random-german-words-generator"
       response = requests.get(url)
@@ -31,8 +32,8 @@ class GermanWordGeneratorTool(BaseTool):
       for li in word_list.find_all('li'):
           p_tags = li.find_all('p')
           word = p_tags[1].text.strip().split('-')[0]
-          meaning = p_tags[2].text.strip()
-          words.append(f"Word: {word}, English meaning: {meaning}")
+          meaning = p_tags[2].text.strip().split(':')[1]
+          words.append(f"Here is your new word. {word}. and its meaning is. {meaning}. Again the word is. {word} and its meaning is. {meaning}. and one more time the word is. {word}. and its meaning is. {meaning}.")
 
       return random.choice(words)
 

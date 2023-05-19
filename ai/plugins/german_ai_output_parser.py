@@ -18,10 +18,9 @@ class OutputParser:
     )
     format = '{{response}}'
 
-    def parse(self, response: str, prompt: str) -> str:
-        print(prompt, "prompt")
-        self.on_parse(response)
-        return response
+    def parse(self, response: str, prompt: str, completion: str) -> str:
+        self.on_parse(completion)
+        return completion
     
     def on_parse(self, response: str) -> Any:
         url = "https://hooks.nabu.casa/gAAAAABkWTTt6eCMzxHXt8zgAP0XuM2MoYHy1kB2MTHA6Y35EnLXm_HotGl0zn-eo4oGmYZIblZ6lh0txubidSH2zwrqca8lFBkFEJ8LeVlXAMYE7-UnDejmOQApB6AGqApH394_9rUeoNgaPWuMnlWhrEYGMFMDYyezv4Z2PEZclP6yvHd_Oxg="
