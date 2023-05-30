@@ -1,9 +1,6 @@
-import re
-from tabnanny import verbose
-from typing import Any, Union
-
+from abc import ABC, abstractmethod
+from typing import Any
 from langchain.agents.agent import AgentOutputParser
-from langchain.schema import AgentAction, AgentFinish, OutputParserException, PromptValue
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 
@@ -35,16 +32,30 @@ prompt: {prompt}
 response:
 """
 
+class FinalOutputParser(ABC):
+    name: str
+    description: str
+    format: str
+
+
+    @abstractmethod
+    def parse(self, completion: str, prompt: str, response: str) -> str:
+        pass
+
+    @abstractmethod
+    def on_parse(self, response: str) -> Any:
+        pass
+
 class OutputParser(AgentOutputParser):
     ai_prefix: str = "AI"
     retry_chain: LLMChain
     tools: Any
 
     @classmethod
-    def from_llm(cls, llm, tools):
+    def from_llm(cls, llm, tools: list[FinalOutputParser]):
         prompt = OutputParser.create_prompt(tools)
 
-        llm_chain = LLMChain(llm=llm, prompt=prompt, verbose=True)
+        llm_chain = LLMChain(llm=llm, prompt=prompt)
         tools_dict = {tool.name: tool for tool in tools}
         return cls(retry_chain=llm_chain, tools=tools_dict)
 
@@ -52,7 +63,7 @@ class OutputParser(AgentOutputParser):
         return FORMAT_INSTRUCTIONS
     
     @classmethod
-    def create_prompt(cls, tools) -> str:
+    def create_prompt(cls, tools) -> PromptTemplate:
         tool_strings = "\n".join(
             [f"format_name: {tool.name}\ndescription: {tool.description}.\nformat: {tool.format}\n" for tool in tools]
         )
@@ -62,11 +73,10 @@ class OutputParser(AgentOutputParser):
         input_variables = ["prompt"]
         return PromptTemplate(template=template, input_variables=input_variables)
     
-    def parse(self, text: str) -> Union[AgentAction, AgentFinish]:
+    def parse(self, text: str) -> str:
         return text
 
-    def parse_with_prompt(self, prompt: PromptValue, completion: str) -> Any:
-
+    def parse_with_prompt(self, prompt: str, completion: str) -> Any:
         response = self.retry_chain.run(prompt=prompt, max_iterations=1)
         toolname, formatted_response = response.split("\n", 1)
         
@@ -74,6 +84,6 @@ class OutputParser(AgentOutputParser):
             return completion
 
         if(self.tools.get(toolname) and self.tools[toolname].parse):
-            return self.tools[toolname].parse(formatted_response, prompt, completion)
+            return self.tools[toolname].parse(response=formatted_response, prompt=prompt, completion=completion)
         
         return formatted_response

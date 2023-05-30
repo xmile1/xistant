@@ -1,8 +1,14 @@
-.venv
-node_modules
-models
-ai/gpt4*
-__pycache__
+.env
 .DS_Store
-accounts.txt
-ai/data
+
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

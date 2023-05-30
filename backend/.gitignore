@@ -1,0 +1,6 @@
+.venv
+__pycache__
+.DS_Store
+ai/data
+.env
+api/local_endpoint.py

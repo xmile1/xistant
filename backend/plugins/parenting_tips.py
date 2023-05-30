@@ -2,11 +2,10 @@ import os
 from typing import Any
 from langchain.agents import load_tools
 from langchain.tools import BaseTool
-from langchain.agents.tools import Tool
 import requests
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 import random
-import lxml
+from config import settings
 
 class ParentingTipsPlugin():
   def __init__(self, model):
@@ -29,11 +28,10 @@ class OutputParser:
         return completion
     
     def on_parse(self, response: str) -> Any:
-        url = "https://hooks.nabu.casa/gAAAAABkWTTNI-pAckU0gC2GeJYxnOFyJyVI81WSwOHD1KSa_Mv8G4UutufXnodtLR7XhN8tbRnygnIDaNcMLK4BKH5G1IKakIfJISul8XePr33EGW-vYGraSNYkwZE9qvrN5KREey53TgTO2_clXzEUdVngYey0V8wBrbHb-TlHftdg4U1eVJc="
-        headers = {"Content-Type": "application/json"}
+      if settings.nigerian_speaker_url:
         requests.post(
-            url,
-            headers=headers,
+            settings.nigerian_speaker_url,
+            headers={"Content-Type": "application/json"},
             json={
                 "text": f"Good morning, here is a parenting tip excerpt for you. {response}"
             },

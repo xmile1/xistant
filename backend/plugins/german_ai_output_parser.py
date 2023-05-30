@@ -1,8 +1,10 @@
 import json
 import math
+from tabnanny import verbose
 import threading
 from typing import Any, Optional
 import requests
+from config import settings
 
 class GermanAIOutputParserPlugin():
   def __init__(self, model):
@@ -14,20 +16,21 @@ class GermanAIOutputParserPlugin():
 class OutputParser:
     name = "German ai speaker output parser"
     description = (
-      """Used ONLY when the user query starts with {{'query': 'give me a new german word"""
+      """This tool is exclusively used when the user query starts with "Give me a new German word."""
     )
     format = '{{response}}'
 
-    def parse(self, response: str, prompt: str, completion: str) -> str:
+    def parse(self, completion: str, **kwargs) -> str:
         self.on_parse(completion)
         return completion
     
     def on_parse(self, response: str) -> Any:
-        url = "https://hooks.nabu.casa/gAAAAABkWTTt6eCMzxHXt8zgAP0XuM2MoYHy1kB2MTHA6Y35EnLXm_HotGl0zn-eo4oGmYZIblZ6lh0txubidSH2zwrqca8lFBkFEJ8LeVlXAMYE7-UnDejmOQApB6AGqApH394_9rUeoNgaPWuMnlWhrEYGMFMDYyezv4Z2PEZclP6yvHd_Oxg="
-        headers = {"Content-Type": "application/json"}
+        if not settings.german_speaker_url:
+            return
+        
         requests.post(
-            url,
-            headers=headers,
+            settings.german_speaker_url,
+            headers={"Content-Type": "application/json"},
             json={
                 "text": f"Hi there, This is your german teacher, get ready for your new word. {response}"
             },

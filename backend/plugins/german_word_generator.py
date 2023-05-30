@@ -17,7 +17,7 @@ class GermanWordGeneratorPlugin():
 class GermanWordGeneratorTool(BaseTool):
   name = "German new word generator"
   description = (
-    "it generates a new german word and its meaning in english"
+    "This tool generates a new German word along with its English meaning. It is useful for expanding one's German vocabulary"
   )
   return_direct = True
   def _run(self, query: str) -> str: 
@@ -33,7 +33,7 @@ class GermanWordGeneratorTool(BaseTool):
           p_tags = li.find_all('p')
           word = p_tags[1].text.strip().split('-')[0]
           meaning = p_tags[2].text.strip().split(':')[1]
-          words.append(f"Here is your new word. {word}. and its meaning is. {meaning}. Again the word is. {word} and its meaning is. {meaning}. and one more time the word is. {word}. and its meaning is. {meaning}.")
+          words.append(f"Here is your new word. {word}. and its meaning is. {meaning}. Again the word is. {word} and its meaning is. {meaning}. and one more time the word is. {word}. and its meaning is. {meaning}. The spelling of the german word is ...{'... '.join(word).upper()}")
 
       return random.choice(words)
 
