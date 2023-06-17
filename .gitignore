@@ -12,3 +12,7 @@
 *.njsproj
 *.sln
 *.sw?
+backend/data/about_me.txt
+backend/data/energy_comsumption.txt
+backend/data/parenting_tips/used_links.txt
+

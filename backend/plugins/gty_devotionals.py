@@ -39,6 +39,7 @@ class DevotionalsPluginTool(BaseTool):
       
       content = content.text.split('Notes:')[1]
       splitted_text = re.split(r'DAY \d+:', content)
+      # use the model to adjust the references bible verses to more text to speech friendly format and also summarize to a max of 500 characters keeping the tone of the text
       return splitted_text[1]
 
    
@@ -54,12 +55,14 @@ class OutputParser(FinalOutputParser):
       """Used only when the user query starts with 'Send me a daily devotional'"""
     )
     format = '{{response}}'
+    model: Any
 
     def parse(self, completion: str, **kwargs: Any) -> str:
         self.on_parse(completion)
         return completion
     
     def on_parse(self, response: str) -> Any:
+        speakable = re.sub(r'\([^()]*\)', '', response)
         url = settings.nigerian_speaker_url
         if url is None:
           return
@@ -69,6 +72,6 @@ class OutputParser(FinalOutputParser):
             url,
             headers=headers,
             json={
-                "text": f"Good morning, here is a devotional excerpt for you. {response}"
+                "text": f"Good morning, here is a devotional excerpt for you. {speakable}"
             },
         )

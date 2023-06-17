@@ -35,7 +35,7 @@ class AI:
             tools=tools,
             verbose=True,
             memory=ConversationBufferWindowMemory(
-                memory_key="chat_history", return_messages=True, k=5
+                memory_key="chat_history", return_messages=True, k=8
             ),
         )
 

@@ -51,7 +51,7 @@ class GroceryManagerPlugin():
     return [
       Tool(
           name="Grocery Manager",
-          description="The Grocery Manager is a tool for managing your grocery stock. With this tool, you can easily retrieve, create, update, and delete data related to your grocery items. Keep track of your inventory and make sure you never run out of your favorite products again, the input must be the initial user request",
+          description="The Grocery Manager is a tool for managing your grocery stock. With this tool, you can easily retrieve, create, update, and delete data related to your grocery items. the input must be the initial user request",
           func= self.agent.run,
           return_direct=True,
       )]
@@ -74,7 +74,6 @@ class GroceryManagerPlugin():
   
   def get_stock_item_tool(self):
     def get_product_stock_details(input: str) -> str:
-      # get product id from input using regex
       product_ids = input.split(",")
       product_ids = [p.strip() for p in product_ids]
 
@@ -86,7 +85,7 @@ class GroceryManagerPlugin():
 
     return Tool(
       name="Get a single product's details",
-      description="This tool returns the details for a single product including the stock details and min stock, the input is the product id of the item, the input must be product ids separated by commas, for example: 1, 2, 3",
+      description="""This tool returns the details for a product or list of products including the stock details, the input is the product id of the item. The stock amount represents the quantity we have available. the input must be product ids separated by commas, for example: 1, 2, 3""",
       func=get_product_stock_details,
     )
   
