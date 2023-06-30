@@ -17,7 +17,7 @@ from plugins.my_movie_preference import MyMoviePreferencePlugin
 from plugins.langchain_quick_tools import LangchainQuickToolsPlugin
 
 def start():
-    model = ChatOpenAI(temperature=0.3, max_tokens=512, client=None)
+    model = ChatOpenAI(temperature=0.3, max_tokens=512, client=None, model="gpt-3.5-turbo-16k")
     ai = AI(
         model,
         [

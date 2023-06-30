@@ -4,7 +4,7 @@ import VueMarkdown from "vue-markdown-render";
 import YouIcon from "./assets/account.svg";
 import BotIcon from "./assets/account-tie.svg";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 const chatHistory = ref(
   JSON.parse(localStorage.getItem("chatHistory") || "[]")

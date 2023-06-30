@@ -40,7 +40,10 @@ class DevotionalsPluginTool(BaseTool):
       content = content.text.split('Notes:')[1]
       splitted_text = re.split(r'DAY \d+:', content)
       # use the model to adjust the references bible verses to more text to speech friendly format and also summarize to a max of 500 characters keeping the tone of the text
-      return splitted_text[1]
+      pattern = r'\([^)]*\)'
+    # Remove the matched words inside brackets from the text
+      cleaned_text = re.sub(pattern, '', splitted_text[1])
+      return cleaned_text
 
    
   async def _arun(self, query: str) -> str:
