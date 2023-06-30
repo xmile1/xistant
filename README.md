@@ -9,16 +9,30 @@ Using the langchain ecosystem, the project intents to have a system that will be
 
 It architechture utilizes a plugin system that allows for easy integration of new services and applications.
 
+The documentation and the project is still in its early stages, and will be updated as/if the project progresses.
+
 
 ## Installation
 1. clone the repository
-
+```bash
+  git clone
+  cd xistant
+```
 ### Backend
-1. cd to the backend folder
-2. add the neccessary environment variables to the .env.sample file and rename it to .env
-3. setup a virtual environment
-4. install the requirements using poetry
-5. run the backend using uvicorn
+2. cd to the backend folder
+```bash
+  cd backend
+```
+3. add the neccessary environment variables to the .env.sample file and rename it to .env
+4. setup a virtual environment
+```bash
+  python3 -m venv .venv
+```
+5. install the requirements using poetry
+```bash
+  poetry install
+```
+6. run the backend using uvicorn
 ```bash
   uvicorn api.main:app --reload  --host 0.0.0.0 --port 8000
 ```
