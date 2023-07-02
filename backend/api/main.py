@@ -60,5 +60,5 @@ async def slash_command(request: Request):
     ]
 
 
-from api import local_endpoint
-app.mount('/', local_endpoint.router)
+# from api import local_endpoint
+# app.mount('/', local_endpoint.router)
