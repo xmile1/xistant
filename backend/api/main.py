@@ -1,9 +1,11 @@
 from dotenv import load_dotenv
+import os
 from plugins.energy_consumption_manager import EnergyConsumptionPlugin
 load_dotenv()
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from ai import AI
 from langchain.chat_models import ChatOpenAI
 from plugins.german_ai_output_parser import GermanAIOutputParserPlugin
@@ -45,6 +47,31 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# Temporary authentication
+@app.middleware('http')
+async def validate_ip(request: Request, call_next):
+    WHITELISTED_IPS = os.getenv('WHITELISTED_IPS')
+    if(not WHITELISTED_IPS):
+        return await call_next(request)
+    WHITELISTED_IPS = WHITELISTED_IPS.split(',')
+    
+    # Get client IP
+    ip = str(request.client.host)
+    print(ip)
+    print(WHITELISTED_IPS)
+    
+    # Check if IP is allowed
+    if ip not in WHITELISTED_IPS:
+        data = {
+            'message': f'IP {ip} is not allowed to access this resource.'
+        }
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=data)
+
+    # Proceed if IP is allowed
+    return await call_next(request)
+
 @app.post("/")
 async def root(request: Request):
     body = await request.json()
