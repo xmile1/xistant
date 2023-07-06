@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from ai import AI
 from langchain.chat_models import ChatOpenAI
 from plugins.german_ai_output_parser import GermanAIOutputParserPlugin
+from plugins.chat_gpt import ChatGptPlugin
 from plugins.my_grocery_manager import GroceryManagerPlugin
 from plugins.parenting_tips import ParentingTipsPlugin
 from plugins.rhasspy_output_parser import RhasspyOutputParserPlugin
@@ -32,7 +33,8 @@ def start():
             GermanAIOutputParserPlugin,
             ParentingTipsPlugin,
             GroceryManagerPlugin,
-            EnergyConsumptionPlugin
+            EnergyConsumptionPlugin,
+            ChatGptPlugin
         ]
     )
     return ai
@@ -81,9 +83,10 @@ async def root(request: Request):
 @app.get("/slash-commands")
 async def slash_command(request: Request):
     return [
+       { "name": '/chatgpt' },
        { "name": '/a1teacher' },
        { "name": '/germanword' },
-       { "name": '/energyconsumption' },
+       { "name": '/energyconsumption' }
     ]
 
 
