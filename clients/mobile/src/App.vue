@@ -50,7 +50,7 @@ const sendQuery = async () => {
 
   const finalQueryValue = queryValue.startsWith("/")
     ? queryValue
-    : selectedSlashCommand.value + queryValue;
+    : selectedSlashCommand.value + " " + queryValue;
 
   const response = await fetch(apiUrl, {
     method: "POST",
@@ -146,7 +146,6 @@ const handleKeyDown = (event) => {
   }
 
   // if enter but showAutocomplete is false, send the query
-
   if (event.key === " " || event.key === "Escape") {
     showAutocomplete.value = false;
   }
@@ -156,14 +155,6 @@ const handleAutocompleteItemClick = (event, command) => {
   event.preventDefault();
   query.value = query.value.replace(query.value.split(" ")[0], command);
   showAutocomplete.value = false;
-};
-
-const handleFocus = () => {
-  // showAutocomplete.value = true;
-};
-
-const handleBlur = () => {
-  // showAutocomplete.value = false;
 };
 
 const handleSelectChange = (event) => {
