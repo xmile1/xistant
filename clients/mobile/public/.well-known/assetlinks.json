@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.netlify.chipper_praline_295006.twa",
+    "sha256_cert_fingerprints": ["F5:4D:87:EA:6F:10:58:E9:B5:BA:1C:CB:AA:6D:84:06:68:91:FC:3C:0A:82:FA:02:B0:BC:B9:94:14:55:44:EB"]
+  }
+}]
