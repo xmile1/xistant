@@ -3,6 +3,6 @@
   "target": {
     "namespace": "android_app",
     "package_name": "app.netlify.chipper_praline_295006.twa",
-    "sha256_cert_fingerprints": ["02:2a:1e:d9:fe:b0:e6:c9:82:6d:f9:9c:58:35:0b:77:89:a7:1a:d5:1f:14:2f:40:44:9f:91:d5:8c:02:78:c1"]
+    "sha256_cert_fingerprints": ["8A:9D:C7:45:61:21:79:5D:6B:AE:8C:3F:60:3A:A6:70:34:F5:4B:6F:21:F5:55:9C:2A:43:47:4B:CF:53:BA:C5"]
   }
 }]
