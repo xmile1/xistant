@@ -21,13 +21,14 @@ selenium = "4.9.1"
 tenacity = "8.2.2"
 tls_client = "0.2.1"
 websocket_client = "1.5.1"
-langchain = "^0.0.219"
+langchain = "^0.0.247"
 google-api-python-client = "^2.86.0"
 wikipedia = "^1.4.0"
 lxml = "^4.9.2"
 python-dotenv = "^1.0.0"
 uvicorn = "^0.22.0"
 typing-extensions = "4.5.0"
+langchain-experimental = "^0.0.7"
 
 
 [build-system]

@@ -33,7 +33,7 @@ class GermanWordGeneratorTool(BaseTool):
           p_tags = li.find_all('p')
           word = p_tags[1].text.strip().split('-')[0]
           meaning = p_tags[2].text.strip().split(':')[1]
-          words.append(f"Here is your new word. {word}. and its meaning is. {meaning}. Again the word is. {word} and its meaning is. {meaning}. and one more time the word is. {word}. and its meaning is. {meaning}. The spelling of the german word is ...{'... '.join(word).upper()}")
+          words.append(f"Hi there, This is your german teacher, get ready for your new word. Here is your new word. {word}. and its meaning is. {meaning}. Again the word is. {word} and its meaning is. {meaning}. and one more time the word is. {word}. and its meaning is. {meaning}. The spelling of the german word is ...{'... '.join(word).upper()}")
 
       return random.choice(words)
 

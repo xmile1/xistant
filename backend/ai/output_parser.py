@@ -13,8 +13,8 @@ FORMATS:
 
 GENERIC_FORMAT = """
 
-tool_name: default_format
-description: This tool is used when no other tool is used to format the response.
+format_name: default_format
+description: This is the least preferred format, useful only when no other format can be used.
 format: {{response}}
 """
 
