@@ -45,6 +45,6 @@ class AI:
     def run(self, request):
         request_string = str(request)
         response = self.agent.run(input=request_string)
-        final_output = self.output_parser.parse_with_prompt(request_string, response)
+        # final_output = self.output_parser.parse_with_prompt(request_string, response)
 
-        return final_output
+        return response

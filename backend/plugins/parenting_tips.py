@@ -5,37 +5,12 @@ from langchain.tools import BaseTool
 import requests
 from bs4 import BeautifulSoup
 import random
-from config import settings
 
 class ParentingTipsPlugin():
   def __init__(self, model):
       self.model = model
   def get_lang_chain_tool(self):
      return [ParentingTipsPluginTool()]
-  def get_output_parser_tool(self):
-     return OutputParser()
-      
-
-class OutputParser:
-    name = "ParentingTips output parser"
-    description = (
-      """Used only when the user query starts with {{'query': 'Send me a parenting tip"""
-    )
-    format = '{{response}}'
-
-    def parse(self, response: str, prompt: str, completion: str) -> str:
-        self.on_parse(completion)
-        return completion
-    
-    def on_parse(self, response: str) -> Any:
-      if settings.nigerian_speaker_url:
-        requests.post(
-            settings.nigerian_speaker_url,
-            headers={"Content-Type": "application/json"},
-            json={
-                "text": f"Good morning, here is a parenting tip excerpt for you. {response}"
-            },
-        )
 
 class ParentingTipsPluginTool(BaseTool):
   name = "Daily ParentingTips generator"
@@ -65,9 +40,10 @@ class ParentingTipsPluginTool(BaseTool):
     content = soup.find("div", class_="post-story")
     header = soup.find("header", class_="post-header")
     header = header.find("h1").text
+    prefix = "Hi, here is your daily parenting tip: \n\n"
     with open(used_links_path, "a") as f:
         f.write(random_link + "\n")
-    return header + "\n\n" + content.text
+    return prefix + "\n\n" + header + "\n\n" + content.text
       
 
    
