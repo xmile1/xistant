@@ -18,7 +18,7 @@ class ChatGptPlugin():
     chain = LLMChain(llm=self.model, prompt=prompt, memory=ConversationBufferWindowMemory(k=2))
     return [Tool(
           name="Chat GPT",
-          description="you MUST use this tool when the query contains the text '/chatgpt'",
+          description="you MUST use this tool when the query starts with the text '/chatgpt'. Input is the original query.",
           func=lambda input: chain.predict(human_input=input),
           return_direct=True
     )]

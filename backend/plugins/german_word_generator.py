@@ -12,32 +12,50 @@ class GermanWordGeneratorPlugin():
   def __init__(self, model):
       self.model = model
   def get_lang_chain_tool(self):
-     return [GermanWordGeneratorTool()]
+     return [GermanWordGeneratorTool(model=self.model)]
   
 class GermanWordGeneratorTool(BaseTool):
   name = "German new word generator"
   description = (
     "This tool generates a new German word along with its English meaning. It is useful for expanding one's German vocabulary"
   )
+  model: Any
   return_direct = True
+  
   def _run(self, query: str) -> str: 
-      url = "https://www.coolgenerator.com/random-german-words-generator"
-      response = requests.get(url)
+      file = open(os.path.join("data/german_words/german_words.txt"), "r")
+      data = file.readlines()
 
-      # Parse the HTML content of the page
-      soup = BeautifulSoup(response.content, "html.parser")
-      word_list = soup.find("ul", class_="list-unstyled content-list")
+      random_index = random.randint(0, len(data) - 1)
+      random_line = data.pop(random_index)
 
-      words = []
-      for li in word_list.find_all('li'):
-          p_tags = li.find_all('p')
-          word = p_tags[1].text.strip().split('-')[0]
-          meaning = p_tags[2].text.strip().split(':')[1]
-          words.append(f"Hi there, This is your german teacher, get ready for your new word. Here is your new word. {word}. and its meaning is. {meaning}. Again the word is. {word} and its meaning is. {meaning}. and one more time the word is. {word}. and its meaning is. {meaning}. The spelling of the german word is ...{'... '.join(word).upper()}")
+      was_used_before = check_phrase_as_line_in_file(os.path.join("data/german_words/used_words.txt"), random_line)
 
-      return random.choice(words)
+      if was_used_before:
+        with open(os.path.join("data/german_words/german_words.txt"), "w") as f:
+          f.writelines(data)
+      else:
+        with open(os.path.join("data/german_words/used_words.txt"), "a") as f:
+         f.write(random_line)
+
+      return self.model.predict(f'''
+        Here is a german word and its meaning, {random_line}. Return a simple sentence using the template below 
+        
+        Here\'s a new word for you. <new word>. It means. <meaning>. 
+        listen again.
+        <new word>. 
+        It means. <meaning>.''')
 
    
   async def _arun(self, query: str) -> str:
       """Use the GoogleAssit tool asynchronously."""
       raise NotImplementedError("Google assist does not support async")
+
+
+def check_phrase_as_line_in_file(file_path, target_phrase):
+  with open(file_path, 'r') as file:
+      lines = file.readlines()
+      for line in lines:
+          if line.strip() == target_phrase:
+              return True
+      return False
