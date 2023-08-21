@@ -84,7 +84,7 @@ const sendQuery = async () => {
       type: "message",
       name: "Assistant",
       avatar: "https://i.pravatar.cc/150?img=1",
-      text: typeof data === "object" ? JSON.stringify(data) : data,
+      text: typeof data === "object" ? JSON.stringify(data) : data.replace(/\n/g, "<br/>"),
     },
   ];
 
@@ -186,7 +186,7 @@ const handleSelectChange = (event) => {
             alt="avatar"
             @click="clearStorage"
           />
-          <VueMarkdown class="text" :source="message.text" />
+          <VueMarkdown class="text" :options="{ break: true, html: true }" :source="message.text" />
         </section>
       </template>
     </div>

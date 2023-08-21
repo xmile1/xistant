@@ -1,4 +1,5 @@
 import json
+from operator import index
 import os
 from typing import Any
 from langchain.agents import load_tools
@@ -7,6 +8,9 @@ from langchain.agents.tools import Tool
 import requests
 from bs4 import BeautifulSoup
 import random
+
+no_of_times_used = 0
+index_used = 0
 
 class GermanWordGeneratorPlugin():
   def __init__(self, model):
@@ -23,20 +27,23 @@ class GermanWordGeneratorTool(BaseTool):
   return_direct = True
   
   def _run(self, query: str) -> str: 
+      global no_of_times_used, index_used
       file = open(os.path.join("data/german_words/german_words.txt"), "r")
       data = file.readlines()
 
       random_index = random.randint(0, len(data) - 1)
-      random_line = data.pop(random_index)
-
-      was_used_before = check_phrase_as_line_in_file(os.path.join("data/german_words/used_words.txt"), random_line)
-
-      if was_used_before:
+      if(no_of_times_used > 4):
+        random_line = data.pop(random_index)
+        no_of_times_used = 0
         with open(os.path.join("data/german_words/german_words.txt"), "w") as f:
           f.writelines(data)
-      else:
         with open(os.path.join("data/german_words/used_words.txt"), "a") as f:
-         f.write(random_line)
+          f.write(random_line)
+        index_used = random_index
+      else:
+        no_of_times_used += 1
+        random_index = index_used
+        random_line = data.pop(random_index)
 
       return self.model.predict(f'''
         Here is a german word and its meaning, {random_line}. Return a simple sentence using the template below 
