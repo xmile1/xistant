@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@auth0/auth0-vue": "^2.3.0",
     "add": "^2.0.6",
     "sass": "^1.62.1",
     "vue": "^3.2.47",
     "vue-markdown-render": "^2.0.1",
+    "vue-router": "^4.2.4",
     "yarn": "^1.22.19"
   },
   "devDependencies": {

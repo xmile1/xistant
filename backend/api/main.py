@@ -3,9 +3,10 @@ import os
 from plugins.energy_consumption_manager import EnergyConsumptionPlugin
 load_dotenv()
 
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from api.auth import validate_token
 from ai import AI
 from langchain.chat_models import ChatOpenAI
 from plugins.chat_gpt import ChatGptPlugin
@@ -46,37 +47,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-# Temporary authentication
-@app.middleware('http')
-async def validate_ip(request: Request, call_next):
-    WHITELISTED_IPS = os.getenv('WHITELISTED_IPS')
-    if(not WHITELISTED_IPS):
-        return await call_next(request)
-    WHITELISTED_IPS = WHITELISTED_IPS.split(',')
-    
-    # Get client IP
-    ip = str(request.client.host)
-    print(ip)
-    print(WHITELISTED_IPS)
-    
-    # Check if IP is allowed
-    if ip not in WHITELISTED_IPS:
-        data = {
-            'message': f'IP {ip} is not allowed to access this resource.'
-        }
-        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=data)
-
-    # Proceed if IP is allowed
-    return await call_next(request)
-
-@app.post("/")
+@app.post("/", dependencies=[Depends(validate_token)])
 async def root(request: Request):
     body = await request.json()
     response = ai.run(body)
     return response
 
-@app.get("/slash-commands")
+@app.get("/slash-commands", dependencies=[Depends(validate_token)])
 async def slash_command(request: Request):
     return [
        { "name": '/chatgpt' },
