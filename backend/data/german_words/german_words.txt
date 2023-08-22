@@ -1,3 +1,7 @@
+ab	from (e.g. time)
+dann	then (= at that time)
+Mittag (mittags)	midday (at midday)
+Mitte (mitten in)	middle (in the middle of)
 ab und zu	now and again
 Abend (abends)	(in the) evening
 als/ wenn	when (conj)

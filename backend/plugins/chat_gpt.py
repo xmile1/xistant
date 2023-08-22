@@ -11,14 +11,16 @@ class ChatGptPlugin():
     template = """
     {history}
     Human: {human_input}
-    Assistant:"""
+    AI:"""
 
     prompt = PromptTemplate(input_variables=["history", "human_input"], template=template)
 
     chain = LLMChain(llm=self.model, prompt=prompt, memory=ConversationBufferWindowMemory(k=2))
     return [Tool(
           name="Chat GPT",
-          description="you MUST use this tool when the query starts with the text '/chatgpt'. Input is the original query.",
+          description="you MUST use this tool when the query starts with the text '/chatgpt'. Action Input must be the user's original query without the '/chatgpt' text",
           func=lambda input: chain.predict(human_input=input),
           return_direct=True
     )]
+
+

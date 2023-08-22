@@ -15,7 +15,9 @@ class DevotionalsPlugin():
 
           In a another section, add a Reflection and Application section, where you reflect on the chapter and apply it practically to today's world.
 
-          In another section, act as a knowledgable empathetic atheist critic and add an unbiased argument about the validity of the information in the chapter, distinguish between verified facts and unverified facts.
+          In another section, act as a knowledgable empathetic atheist critic (Dont explicitly say you are one) and add an unbiased argument about the validity of the information in the chapter, distinguish between verified facts and unverified facts.
+
+          In another section, add a useful life hack.
 
           The first line of your response should be the book and chapter of the bible that you are writing about e.g. Isaiah 1
           and the next line should be the devotional message
