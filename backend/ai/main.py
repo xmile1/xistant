@@ -2,6 +2,13 @@ from langchain.agents import AgentExecutor, ConversationalAgent
 from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from ai.output_parser import OutputParser
 
+slash_commands = {
+    "/germanword": "German new word generator",
+    "/chatgpt": "Chat GPT",
+    "/a1teacher": "Specialized German Model",
+    "/energyconsumption": "Energy Consumption",
+}
+
 
 class AI:
     def __init__(self, model, plugins):
@@ -14,11 +21,11 @@ class AI:
             plugin_ = plugin(self.model)
             self.plugins.append(plugin_)
 
-            if(hasattr(plugin_, 'get_lang_chain_tool')):
+            if hasattr(plugin_, "get_lang_chain_tool"):
                 tool = plugin_.get_lang_chain_tool()
                 self.tools.extend(tool)
 
-            if(hasattr(plugin_, 'get_output_parser_tool')):
+            if hasattr(plugin_, "get_output_parser_tool"):
                 output_parser = plugin_.get_output_parser_tool()
                 output_parsers_tools.append(output_parser)
 
@@ -43,6 +50,15 @@ class AI:
         return OutputParser.from_llm(tools=output_parsers_tools, llm=self.model)
 
     def run(self, request):
+        if "query" in request and request["query"].startswith("/"):
+            command_name = request["query"].split(" ")[0]
+            toolname = slash_commands.get(command_name)
+
+            if toolname:
+                tool = [t for t in self.tools if t.name == toolname][0]
+                response = tool.run(request["query"])
+                return response
+
         request_string = str(request)
         response = self.agent.run(input=request_string)
         # final_output = self.output_parser.parse_with_prompt(request_string, response)
