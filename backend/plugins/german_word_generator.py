@@ -46,17 +46,19 @@ class GermanWordGeneratorTool(BaseTool):
         random_line = data[index_used]
 
       return self.model.predict(f'''
-        Here is a german word and its meaning, {random_line}. Return a simple sentence using the template below 
+        Here is a german word and its meaning, {random_line}. Return a simple sentence using the template below. 
         
         Here\'s a new word for you. <new word>. It means. <meaning>. 
         listen again.
         <new word>. 
-        It means. <meaning>.''')
+        It means. <meaning>.
+        
+        NOTE: Remove any words in brackets.''')
 
    
   async def _arun(self, query: str) -> str:
-      """Use the GoogleAssit tool asynchronously."""
-      raise NotImplementedError("Google assist does not support async")
+      """Use this tool asynchronously."""
+      raise NotImplementedError("This tool does not support async")
 
 
 def check_phrase_as_line_in_file(file_path, target_phrase):

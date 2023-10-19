@@ -21,7 +21,7 @@ class GermanTeacherPlugin():
     First give a converationlike response to the conversation and/or ask a question, or talk about something.
 
     Deutsch tips:
-    explain some grammar rules based on the words used in your response.
+    explain some grammar rules based on the words used in the conversation.
 
     Translation:
     translate your response to English.
@@ -30,7 +30,7 @@ class GermanTeacherPlugin():
     ---------------
     Was ist deine Lieblingsstadt in Deutschland?
 
-    Deutsch Tip: In this response, "Was ist deine Lieblingsstadt in Deutschland?" is a question. In German, questions are formed by putting the verb first. The verb in this sentence is "ist" which means "is". The subject is "deine Lieblingsstadt" which means "your favorite city". The object is "in Deutschland" which means "in Germany". The question is asking "What is your favorite city in Germany?"
+    Deutsch Grammar Tip: "deine" is used here because it is the possessive form of "dein," which means "your." In German, possessive pronouns change based on the gender and number of the noun they are describing. In this case, "Stadt" (city) is a feminine singular noun, so the possessive pronoun "deine" is used to indicate "your favorite city." The choice of possessive pronoun depends on the gender, number, and case of the noun being possessed.
 
     Translation:
     What is your favorite city in Germany?

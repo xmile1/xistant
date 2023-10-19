@@ -15,7 +15,7 @@ class DevotionalsPlugin():
 
           In a another section, add a Reflection and Application section, where you reflect on the chapter and apply it practically to today's world.
 
-          In another section, act as a knowledgable empathetic atheist critic (Dont explicitly say you are one) and add an unbiased argument about the validity of the information in the chapter, distinguish between verified facts and unverified facts.
+          In another section, act as a seasoned archeologist and critic and add an unbiased proof of the facts and refute the information that is not historical fact or unverified.
 
           In another section, add a useful life hack.
 
