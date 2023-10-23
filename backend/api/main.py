@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from api.auth import validate_token
 from ai import AI
 from langchain.chat_models import ChatOpenAI
+from plugins.talker import TalkerPlugin
 from plugins.chat_gpt import ChatGptPlugin
 from plugins.my_grocery_manager import GroceryManagerPlugin
 from plugins.parenting_tips import ParentingTipsPlugin
@@ -31,7 +32,8 @@ def start():
             ParentingTipsPlugin,
             GroceryManagerPlugin,
             EnergyConsumptionPlugin,
-            ChatGptPlugin
+            ChatGptPlugin,
+            TalkerPlugin
         ]
     )
     return ai
@@ -59,5 +61,6 @@ async def slash_command(request: Request):
        { "name": '/chatgpt' },
        { "name": '/a1teacher' },
        { "name": '/germanword' },
-       { "name": '/energyconsumption' }
+       { "name": '/energyconsumption' },
+       { "name": '/talker' }
     ]
