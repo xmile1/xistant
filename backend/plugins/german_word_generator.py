@@ -46,11 +46,11 @@ class GermanWordGeneratorTool(BaseTool):
         random_line = data[index_used]
 
       return self.model.predict(f'''
-        Here is a german word and its meaning, {random_line}. Return a simple sentence using the template below. 
+        Here is a german word and its meaning, {random_line}. Return a simple sentence using the template below, Always add the article. 
         
-        Here\'s a new word for you. <new word>. It means. <meaning>. 
+        Here\'s a new word for you. <article> <new word>. It means. <meaning>. 
         listen again.
-        <new word>. 
+        <article> <new word>. 
         It means. <meaning>.
         
         NOTE: Remove any words in brackets.''')

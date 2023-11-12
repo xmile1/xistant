@@ -7,7 +7,8 @@ slash_commands = {
     "/chatgpt": "Chat GPT",
     "/a1teacher": "Specialized German Model",
     "/energyconsumption": "Energy Consumption",
-    "/talker": "Talker"
+    "/talker": "Talker",
+    "/usedwords": "Used Words Practice"
 }
 
 
