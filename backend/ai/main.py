@@ -8,7 +8,8 @@ slash_commands = {
     "/a1teacher": "Specialized German Model",
     "/energyconsumption": "Energy Consumption",
     "/talker": "Talker",
-    "/usedwords": "Used Words Practice"
+    "/usedwords": "Used Words Practice",
+    "/convo": "Convo",
 }
 
 

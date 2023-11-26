@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 from plugins.energy_consumption_manager import EnergyConsumptionPlugin
+
 load_dotenv()
 
 from fastapi import FastAPI, Request, Depends
@@ -19,9 +20,17 @@ from plugins.german_word_generator import GermanWordGeneratorPlugin
 from plugins.my_movie_preference import MyMoviePreferencePlugin
 from plugins.langchain_quick_tools import LangchainQuickToolsPlugin
 from plugins.used_words_practice import UsedWordsPracticePlugin
+from plugins.convo import ConvoPlugin
+
 
 def start():
-    model = ChatOpenAI(temperature=0.3, max_tokens=512, client=None, model="gpt-3.5-turbo", verbose=True)
+    model = ChatOpenAI(
+        temperature=0.3,
+        max_tokens=512,
+        client=None,
+        model="gpt-3.5-turbo",
+        verbose=True,
+    )
     ai = AI(
         model,
         [
@@ -35,10 +44,12 @@ def start():
             EnergyConsumptionPlugin,
             ChatGptPlugin,
             TalkerPlugin,
-            UsedWordsPracticePlugin
-        ]
+            UsedWordsPracticePlugin,
+            ConvoPlugin,
+        ],
     )
     return ai
+
 
 ai = start()
 app = FastAPI()
@@ -60,10 +71,11 @@ async def root(request: Request):
 @app.get("/slash-commands", dependencies=[Depends(validate_token)])
 async def slash_command(request: Request):
     return [
-        { "name": '/chatgpt' },
-        { "name": '/a1teacher' },
-        { "name": '/germanword' },
-        { "name": '/energyconsumption' },
-        { "name": '/talker' },
-        { "name": '/usedwords' }
+        {"name": "/chatgpt"},
+        {"name": "/a1teacher"},
+        {"name": "/germanword"},
+        {"name": "/energyconsumption"},
+        {"name": "/talker"},
+        {"name": "/usedwords"},
+        {"name": "/convo"},
     ]
