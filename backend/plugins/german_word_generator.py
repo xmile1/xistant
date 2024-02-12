@@ -27,7 +27,7 @@ class GermanWordGeneratorTool(BaseTool):
 
     def _run(self, query: str) -> str:
         global no_of_times_used, index_used
-        file = open(os.path.join("data/german_words/german_words.txt"), "r")
+        file = open(os.path.join("data/german_words/german_phrases.txt"), "r")
         data = file.readlines()
 
         if no_of_times_used > 9:
@@ -36,7 +36,7 @@ class GermanWordGeneratorTool(BaseTool):
             random_line = data[random_index]
 
             no_of_times_used = 0
-            with open(os.path.join("data/german_words/german_words.txt"), "w") as f:
+            with open(os.path.join("data/german_words/german_phrases.txt"), "w") as f:
                 f.writelines(data)
             with open(os.path.join("data/german_words/used_words.txt"), "a") as f:
                 f.write(used_line)
@@ -48,30 +48,25 @@ class GermanWordGeneratorTool(BaseTool):
 
         return self.model.predict(
             f"""
-        Here is a german word and its meaning, {random_line}. Return a simple sentence using the template below, If it is a noun, pronoun or an adjective, add the article.
+        Here is a sentence in English, {random_line}. Return a simple sentence using the template below.
         
-        Hier ist ein neues Wort für dich. <german word>. Es bedeutet im Englischen.
-        <meaning in english>.
+        Ein neues Satz für dich.
+        <the translation in german>.
+        <the translation in german>.
         Höre noch einmal.
-        <german word>.
+        <the translation in german>.
         Es bedeutet im Englischen.
-        <meaining in english>.
+        <the sentence in english>.
 
         Example:
-        Hier ist ein neues Wort für dich. noch. Es bedeutet im Englischen.
-        still or even now. 
-        Höre noch einmal
-        noch 
-        Es bedeutet im Englischen.
-        still or even now.
-
-        Example:
-        Hier ist ein neues Wort für dich. Das Rollbrett. Es bedeutet im Englischen.
-        skateboard.
+        Ein neues Satz für dich. 
+        Ich möchte dich wiedersehen.
+        Ich möchte dich wiedersehen.
         Höre noch einmal.
-        Das Rollbrett.
+        Ich möchte dich wiedersehen.
         Es bedeutet im Englischen.
-        skateboard.
+        I want to see you again.
+
         """
         )
 
