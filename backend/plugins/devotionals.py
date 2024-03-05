@@ -15,8 +15,6 @@ class DevotionalsPlugin():
 
           In a another section, add a Reflection and Application section, where you reflect on the chapter and apply it practically to today's world.
 
-          In another section, act as a seasoned archeologist and critic and add an unbiased proof of the facts and refute the information that is not historical fact or unverified.
-
           In another section, add a useful life hack.
 
           The first line of your response should be the book and chapter of the bible that you are writing about e.g. Isaiah 1

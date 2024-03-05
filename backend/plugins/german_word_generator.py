@@ -48,7 +48,7 @@ class GermanWordGeneratorTool(BaseTool):
 
         return self.model.predict(
             f"""
-        Here is a sentence in English, {random_line}. Return a simple sentence using the template below.
+        Here is a sentence in English or German, {random_line}. Return a simple sentence using the template below.
         
         Ein neues Satz für dich.
         <the translation in german>.
