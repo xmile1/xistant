@@ -51,22 +51,19 @@ class GermanWordGeneratorTool(BaseTool):
         Here is a sentence in English or German, {random_line}. Return a simple sentence using the template below.
         
         Ein neues Satz für dich.
-        <the translation in german>.
-        <the translation in german>.
-        Höre noch einmal.
-        <the translation in german>.
-        Es bedeutet im Englischen.
         <the sentence in english>.
+        Hore in Deutsch.
+        <the translation in german>.
+        <the translation in german>.
+        <the translation in german>.
 
         Example:
         Ein neues Satz für dich. 
-        Ich möchte dich wiedersehen.
-        Ich möchte dich wiedersehen.
-        Höre noch einmal.
-        Ich möchte dich wiedersehen.
-        Es bedeutet im Englischen.
         I want to see you again.
-
+        Hore in Deutsch.
+        Ich möchte dich wiedersehen.
+        Ich möchte dich wiedersehen.
+        Ich möchte dich wiedersehen.
         """
         )
 
