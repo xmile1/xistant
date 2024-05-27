@@ -32,6 +32,7 @@ class GermanWordGeneratorTool(BaseTool):
 
         if no_of_times_used > 9:
             random_index = random.randint(0, len(data) - 1)
+            random_index = 0
             used_line = data.pop(index_used)
             random_line = data[random_index]
 
@@ -55,7 +56,8 @@ class GermanWordGeneratorTool(BaseTool):
         Hore in Deutsch.
         <the translation in german>.
         <the translation in german>.
-        <the translation in german>.
+        In Englisch
+        <the sentence in english>.
 
         Example:
         Ein neues Satz für dich. 
@@ -63,7 +65,8 @@ class GermanWordGeneratorTool(BaseTool):
         Hore in Deutsch.
         Ich möchte dich wiedersehen.
         Ich möchte dich wiedersehen.
-        Ich möchte dich wiedersehen.
+        In Englisch
+        I want to see you again.
         """
         )
 
