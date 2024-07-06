@@ -21,6 +21,7 @@ from plugins.my_movie_preference import MyMoviePreferencePlugin
 from plugins.langchain_quick_tools import LangchainQuickToolsPlugin
 from plugins.used_words_practice import UsedWordsPracticePlugin
 from plugins.convo import ConvoPlugin
+from plugins.food_to_cook import FoodToCookPlugin
 
 
 def start():
@@ -46,6 +47,7 @@ def start():
             TalkerPlugin,
             UsedWordsPracticePlugin,
             ConvoPlugin,
+            FoodToCookPlugin,
         ],
     )
     return ai
