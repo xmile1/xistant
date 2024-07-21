@@ -5,12 +5,16 @@ from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 
 class GermanTeacherPlugin():
-  def __init__(self, model):
-      self.model = ChatOpenAI(temperature=0.5, max_tokens=512, client=None)
-  def get_lang_chain_tool(self):
-    # get the file use_words.txt
-    german_teacher_prompt = PromptTemplate.from_template(
-    """You are a german friend that speaks Deutsch.
+
+    def __init__(self, model):
+        self.model = ChatOpenAI(
+            temperature=0.5, max_tokens=512, client=None, model="gpt-4o"
+        )
+
+    def get_lang_chain_tool(self):
+        # get the file use_words.txt
+        german_teacher_prompt = PromptTemplate.from_template(
+            """You are a german friend that speaks Deutsch.
     Make sure your responses are not too long so that the user can understand you.
     Feel free to talk about any topic of your choice.
     Your goal is to teach the grammar and vocabulary of the german language through conversation.
@@ -47,9 +51,9 @@ class GermanTeacherPlugin():
     human: {prompt}
     response:
     """
-    )
-    todo_chain = LLMChain(llm=self.model, prompt=german_teacher_prompt, memory=ConversationBufferMemory())
-    return [Tool(
+        )
+        todo_chain = LLMChain(llm=self.model, prompt=german_teacher_prompt, memory=ConversationBufferMemory())
+        return [Tool(
           name="Specialized German Model",
           description="This tool is a German language model designed for engaging in German conversations. It excels at understanding and generating responses in German. you MUST use this tool when the query contains /a1teacher. also all deutsch conversations MUST use this tool. It takes the user's query as input and provides the best German response.",
           func=todo_chain.run,

@@ -29,7 +29,7 @@ def start():
         temperature=0.3,
         max_tokens=512,
         client=None,
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         verbose=True,
     )
     ai = AI(
