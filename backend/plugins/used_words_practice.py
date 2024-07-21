@@ -7,7 +7,7 @@ from langchain.memory import ConversationBufferMemory
 
 class UsedWordsPracticePlugin:
     def __init__(self, model):
-        self.model = ChatOpenAI(temperature=0.5, max_tokens=512, client=None, model="gpt-4o")
+        self.model = ChatOpenAI(temperature=0.5, max_tokens=512, client=None, model="gpt-4o-mini")
 
     def get_lang_chain_tool(self):
         # get the file use_words.txt

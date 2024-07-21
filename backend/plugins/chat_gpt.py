@@ -5,7 +5,7 @@ from langchain.memory import ConversationBufferWindowMemory
 
 class ChatGptPlugin():
   def __init__(self, model):
-      self.model = ChatOpenAI(temperature=0.7, client=None, model="gpt-4o")
+      self.model = ChatOpenAI(temperature=0.7, client=None, model="gpt-4o-mini")
   def get_lang_chain_tool(self):
 
     template = """

@@ -9,7 +9,7 @@ import os
 
 class FoodToCookPlugin():
     def __init__(self, model):
-        self.model = ChatOpenAI(temperature=1.0, max_tokens=1024, client=None, model="gpt-4o")
+        self.model = ChatOpenAI(temperature=1.0, max_tokens=1024, client=None, model="gpt-4o-mini")
         self.theologian_prompt = PromptTemplate.from_template(
             """You are my personal chef, here is a list of food i eat. and the last series of food i ate.
             Suggest the next food i should cook for a meal.
