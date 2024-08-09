@@ -21,14 +21,14 @@ class ParentingTipsPluginTool(BaseTool):
 
   def _run(self, query: str) -> str: 
     used_links_path = os.path.join(os.path.dirname(__file__), "..", "data/parenting_tips/used_links.txt")
-    url = "https://www.babycenter.com/sitemap-expert.xml"
+    url = "https://journeyintoparenting.com/post-sitemap.xml"
     response = requests.get(url)
 
     soup = BeautifulSoup(response.content, "lxml")
     links = soup.find_all("loc")
     with open(used_links_path, "r") as f:
         used_links = f.read().splitlines()
-    links = [link.text for link in links if link.text not in used_links and link.text.startswith("https://www.babycenter.com/baby/")]
+    links = [link.text for link in links if link.text not in used_links]
     random_link = random.choice(links)
 
     headers = {
@@ -36,17 +36,20 @@ class ParentingTipsPluginTool(BaseTool):
     }
     response2 = requests.get(random_link, headers=headers)
     soup = BeautifulSoup(response2.content, "html.parser")
-    article = soup.find("article")
-    header = article.find("h1").text
-    content = article.find("div", class_="bodyText")
-    for div in content.find_all("div"):
-        div.decompose()
+
+    content = soup.find("div", class_="post-story")
+    header = soup.find("header", class_="post-header")
+    header = header.find("h1").text
     prefix = "Hi, here is your daily parenting tip: \n\n"
     with open(used_links_path, "a") as f:
         f.write(random_link + "\n")
-    return prefix + "\n\n" + header + "\n\n" + content.text[:1500]
+    return prefix + "\n\n" + header + "\n\n" + content.text
+      
 
    
   async def _arun(self, query: str) -> str:
       """Use the Devotional tool asynchronously."""
       raise NotImplementedError("This tool does not support async")
+      
+  
+  
